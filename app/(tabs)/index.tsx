@@ -12,8 +12,8 @@ export default function Index() {
    <View className='flex-1' style={{backgroundColor: "#0f0D23"}} >
        <Image source={images.bg} className='absolute w-full z-0' />
         <ScrollView className='flex-1'
-        contentContainerStyle={{alignItems:"center",paddingStart:5,paddingEnd:5}}>
-            <Image source={icons.logo} className='w-12 h-10' style={{marginTop:20, marginBottom:5}}/>
+        contentContainerStyle={{paddingStart:5,paddingEnd:5}}>
+            <Image source={icons.logo} className='w-12 h-10' style={{marginTop:20, marginBottom:5, alignSelf:'center'}}/>
             <View className='flex-1 mt-5'>
                 <SearchBar onPress={()=> router.push('/Search')}
                 placeholder='Search for a movie'

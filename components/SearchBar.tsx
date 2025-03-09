@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, Image, TextInput,TouchableOpacity} from 'react-native';
+import React, {ReactDOM, useState} from 'react';
+import {View, Text, Image, TextInput,TouchableOpacity,NativeSyntheticEvent,TextInputChangeEventData} from 'react-native';
 import {icons} from "@/constants/icons";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SearchBar = ({placeholder, onPress}:Props) => {
-
+    const [search, setSearch]=useState<string>('');
     return (
         <View className='flex-row items-center bg-dark-200 rounded-full' style={{paddingHorizontal:5, paddingVertical:4}} >
             <TouchableOpacity onPress={onPress}>
@@ -16,9 +16,8 @@ const SearchBar = ({placeholder, onPress}:Props) => {
             </TouchableOpacity>
 
             <TextInput placeholder={placeholder}
-
-                       value='search'
-                       onChangeText={(text: string) => {}}
+                       value={search}
+                       onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {setSearch(e.nativeEvent.text)}}
                        placeholderTextColor={'#a8b5db'}
             className='text-center ' style={{color:'white', marginLeft:2}}/>
         </View>
