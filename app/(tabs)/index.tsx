@@ -1,12 +1,14 @@
-import {ActivityIndicator, Animated, FlatList, Image, Text, View} from "react-native";
+import {ActivityIndicator, Animated, FlatList, Image, Text, TouchableOpacity, View} from "react-native";
 import {images} from "@/constants/images";
 import {icons} from "@/constants/icons";
 import {ScrollView} from "react-native";
 import SearchBar from "@/components/SearchBar";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
 import useFetch from "@/services/useFetch";
 import {fetchMovies} from "@/services/api";
 import MovieCard from "@/components/MovieCard";
+import {Movie} from "@/types/movies";
+import React from "react";
 
 
 export default function Index() {
@@ -28,10 +30,12 @@ export default function Index() {
                                 <SearchBar onPress={()=> router.push('/Search')}
                                            placeholder='Search for a movie'
                                 />
-                                <>
+
                                     <Text className={'text-lg text-white font-bold mt-5 mb-3'}>Latest Movies</Text>
-                                    <MovieCard movies={movies}/>
-                                </>
+
+                                <MovieCard movies={movies}/>
+
+
 
                             </View>
                         )
