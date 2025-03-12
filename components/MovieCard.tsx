@@ -22,9 +22,9 @@ const MovieCard = ({movies}:Props) => {
                                         className={'w-full h-40 rounded-lg'}
                                         resizeMode={'cover'}/>
                                          <Text className={'text-sm font-bold text-white mt-1 text-center'} numberOfLines={1}>{item.title}</Text>
-                                        <View>
-                                            {/*<Image src={icons.star} className={'size-4'}/>*/}
-                                            {/*<Text>{Math.round(item.vote_count/2)}</Text>*/}
+                                        <View className={'flex-row items-center justify-start gap-x-1'}>
+                                            <Image source={icons.star} className={'size-4'}/>
+                                            <Text className={'text-white'}>{Math.round(item.vote_average/2)}</Text>
                                         </View>
                                      </TouchableOpacity>
                                  </Link>
