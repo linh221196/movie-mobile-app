@@ -1,11 +1,54 @@
-import React from 'react';
-import { View, Text,TextInput} from 'react-native';
+import React,{useState} from 'react';
+import {ScrollView, View, Text, TextInput, Image, ActivityIndicator} from 'react-native';
+import {images} from "@/constants/images";
+import MovieCard from "@/components/MovieCard";
+import SearchBar from "@/components/SearchBar";
+import {icons} from "@/constants/icons";
+import {useRouter} from "expo-router";
+import useFetch from "@/services/useFetch";
+import {Movie} from "@/types/movies";
+import {fetchMovies} from "@/services/api";
 const Search = () => {
+    const router = useRouter();
+    const [search, setSearch]=useState<string>('');
+    const {data:movies, loading:moviesLoading, error: moviesError, refetch:refetchMovies}=
+        useFetch<Movie[]>(()=>fetchMovies({query: search}))
     return (
-        <View className='bg-primary flex-1' >
-            <Text>Search Component</Text>
+        <ScrollView className='bg-primary flex-1' >
+            <Image source={images.bg} className={'flex-1 w-full absolute z-0'} resizeMode={'cover'} />
+            <Image source={icons.logo} className={'mx-auto my-5 w-12 h-10'} resizeMode={'contain'}  />
+            <View className={'flex-1 px-2'}>
+                <SearchBar placeholder={'Enter your keywords'} setSearch={setSearch} search={search}
+                           onPress={()=> {
+                               refetchMovies()
+                           }}
+                />
+                {
+                    moviesLoading? <ActivityIndicator></ActivityIndicator> :
+                        moviesError? <Text className={'text-white text-center mt-2'}>Error happened</Text>:(
+                            <>
+                                {
+                                    search != '' &&
+                                    (<Text className={'text-white w-full text-center  font-bold text-lg my-4'}>Search results
+                                        for: {search}</Text>)
+                                }
 
-        </View>
+
+                                {
+                                    movies && movies?.length>0 ? <MovieCard movies={movies}/> : <Text className={'text-white'}>No matched result</Text>
+                                }
+
+
+                            </>
+
+                        )
+                }
+
+            </View>
+
+
+
+        </ScrollView>
     );
 };
 export default Search;

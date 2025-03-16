@@ -4,11 +4,13 @@ import {icons} from "@/constants/icons";
 
 interface Props {
     placeholder: string,
-    onPress?: ()=> void
+    onPress?: ()=> void,
+    setSearch: (text: string) => void,
+    search:string
 }
 
-const SearchBar = ({placeholder, onPress}:Props) => {
-    const [search, setSearch]=useState<string>('');
+const SearchBar = ({placeholder, onPress, setSearch,search}:Props) => {
+
     return (
         <View className='flex-row items-center bg-dark-200 rounded-full' style={{paddingHorizontal:5, paddingVertical:4}} >
             <TouchableOpacity onPress={onPress}>

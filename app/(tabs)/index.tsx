@@ -8,13 +8,16 @@ import useFetch from "@/services/useFetch";
 import {fetchMovies} from "@/services/api";
 import MovieCard from "@/components/MovieCard";
 import {Movie} from "@/types/movies";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 
 export default function Index() {
     const router = useRouter();
-    const {data:movies, loading:moviesLoading, error: moviesError}=
-        useFetch<Movie[]>(()=>fetchMovies({query: ''}))
+    const [search, setSearch]=useState<string>('');
+    const {data:movies, loading:moviesLoading, error: moviesError, refetch:refetchMovies}=
+        useFetch<Movie[]>(()=>fetchMovies({query: search}))
+
+
 
   return (
    <View className='flex-1 bg-primary'>
@@ -27,8 +30,13 @@ export default function Index() {
                         ):
                         (
                             <View className='flex-1 mt-5'>
-                                <SearchBar onPress={()=> router.push('/Search')}
+                                <SearchBar
+                                    onPress={()=> router.push('/Search')}
+
                                            placeholder='Search for a movie'
+                                           setSearch={setSearch}
+                                           search={search}
+
                                 />
 
                                     <Text className={'text-lg text-white font-bold mt-5 mb-3'}>Latest Movies</Text>
