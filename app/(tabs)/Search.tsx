@@ -8,6 +8,7 @@ import {useRouter} from "expo-router";
 import useFetch from "@/services/useFetch";
 import {Movie} from "@/types/movies";
 import {fetchMovies} from "@/services/api";
+import {updateSearchCount} from "@/services/appwrite";
 const Search = () => {
     const router = useRouter();
     const [search, setSearch]=useState<string>('');
@@ -26,12 +27,30 @@ const Search = () => {
     }, [search]);
 
     useEffect(() => {
-        if (debouncedSearch.trim()) {
-            refetchMovies();
-        } else {
-            reset();
+        const func= async ()=>{
+            if (debouncedSearch.trim()) {
+                 await refetchMovies();
+                 console.log('RUN 1');
+            } else {
+                reset();
+            }
         }
+           func()
     }, [debouncedSearch]);
+
+    useEffect(() => {
+        const update = async ()=>{
+            if(debouncedSearch && movies){
+                console.log('RUN 2');
+                await updateSearchCount(debouncedSearch,movies[0])
+            }
+
+        }
+    update()
+
+    }, [debouncedSearch,movies]);
+
+
     return (
         <ScrollView className='bg-primary flex-1' >
             <Image source={images.bg} className={'flex-1 w-full absolute z-0'} resizeMode={'cover'} />
@@ -49,7 +68,7 @@ const Search = () => {
                              (
                                 <>
                                     <Text className={'text-white w-full text-center font-bold text-lg my-4'}>
-                                        Search results for: <Text className={'text-purple-600 font-bold'}>{debouncedSearch}</Text>
+                                        Search Results for: <Text className={'text-purple-600 font-bold'}>{debouncedSearch}</Text>
                                     </Text>
                                     {movies && movies.length > 0 ? (
                                         <MovieCard movies={movies} />
