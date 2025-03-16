@@ -19,9 +19,10 @@ const SearchBar = ({placeholder, onPress, setSearch,search}:Props) => {
 
             <TextInput placeholder={placeholder}
                        value={search}
-                       onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {setSearch(e.nativeEvent.text)}}
+                       onChangeText={(text:string) => {setSearch( text)}}
+
                        placeholderTextColor={'#a8b5db'}
-            className='text-center ' style={{color:'white', marginLeft:2}}/>
+            className='w-full text-base ' style={{color:'white', marginLeft:2}}/>
         </View>
     );
 };

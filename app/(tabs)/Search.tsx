@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TextInput, Image, ActivityIndicator} from 'react-native';
 import {images} from "@/constants/images";
 import MovieCard from "@/components/MovieCard";
@@ -11,8 +11,27 @@ import {fetchMovies} from "@/services/api";
 const Search = () => {
     const router = useRouter();
     const [search, setSearch]=useState<string>('');
-    const {data:movies, loading:moviesLoading, error: moviesError, refetch:refetchMovies}=
-        useFetch<Movie[]>(()=>fetchMovies({query: search}))
+    const [debouncedSearch, setDebouncedSearch] = useState<string>('');
+    const {data:movies, loading:moviesLoading, error: moviesError, refetch:refetchMovies, reset}=
+        useFetch<Movie[]>(()=>fetchMovies({query: search}),false)
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 300);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [search]);
+
+    useEffect(() => {
+        if (debouncedSearch.trim()) {
+            refetchMovies();
+        } else {
+            reset();
+        }
+    }, [debouncedSearch]);
     return (
         <ScrollView className='bg-primary flex-1' >
             <Image source={images.bg} className={'flex-1 w-full absolute z-0'} resizeMode={'cover'} />
@@ -24,25 +43,23 @@ const Search = () => {
                            }}
                 />
                 {
-                    moviesLoading? <ActivityIndicator></ActivityIndicator> :
-                        moviesError? <Text className={'text-white text-center mt-2'}>Error happened</Text>:(
-                            <>
-                                {
-                                    search != '' &&
-                                    (<Text className={'text-white w-full text-center  font-bold text-lg my-4'}>Search results
-                                        for: {search}</Text>)
-                                }
-
-
-                                {
-                                    movies && movies?.length>0 ? <MovieCard movies={movies}/> : <Text className={'text-white'}>No matched result</Text>
-                                }
-
-
-                            </>
-
-                        )
+                    debouncedSearch  ?
+                    moviesLoading ? <ActivityIndicator /> :
+                        moviesError ? <Text className={'text-white text-center mt-2'}>Error happened</Text> :
+                             (
+                                <>
+                                    <Text className={'text-white w-full text-center font-bold text-lg my-4'}>
+                                        Search results for: <Text className={'text-purple-600 font-bold'}>{debouncedSearch}</Text>
+                                    </Text>
+                                    {movies && movies.length > 0 ? (
+                                        <MovieCard movies={movies} />
+                                    ) : (
+                                        <Text className={'text-white'}>No matched result</Text>
+                                    )}
+                                </>
+                            ) : null
                 }
+
 
             </View>
 
