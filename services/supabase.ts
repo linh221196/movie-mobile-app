@@ -66,7 +66,7 @@ export const getMostQueries = async()=> {
         .select('*')
         .order('count', { ascending: false })
         .limit(10);
-    if(fetchError){return fetchError}
+    if(fetchError){throw fetchError}
     return data;
 }
 

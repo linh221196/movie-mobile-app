@@ -4,8 +4,10 @@ import {Movie} from "@/types/movies";
 import {Link} from "expo-router";
 import {icons} from "@/constants/icons"
 
+
 interface Props {
-    movies: Movie[] | null;
+    movies: Movie[] | null ;
+
 }
 const MovieCard = ({movies}:Props) => {
     return (
@@ -48,6 +50,9 @@ const MovieCard = ({movies}:Props) => {
                          }}
                          className="mt-2 pb-32"
                          scrollEnabled={false}
+
+
+
         >
 
 
