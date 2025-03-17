@@ -1,13 +1,12 @@
 import {Client, Databases, Query, ID, AppwriteException} from 'react-native-appwrite'
-//track the searches made by user
 import {Movie} from "@/types/movies"
-import dataUriToBuffer from "data-uri-to-buffer";
+
 const APPWRITE = process.env.EXPO_PUBLIC_APPWRITE!;
 const APPWRITE_DB = process.env.EXPO_PUBLIC_APPWRITE_DB!;
 const APPWRITE_METRICS = process.env.EXPO_PUBLIC_APPWRITE_DB_METRICS!;
 
 const client = new Client()
-    .setEndpoint('https://cloud.appwrite.io/v1')
+    //.setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(APPWRITE)
     .setPlatform('com.lkl.movieapp');
 
@@ -18,9 +17,10 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
     console.log('RUNNED')
     try{
     console.log('updateSearchCount',query, "movie ", movie)
-    const result = await database.listDocuments(APPWRITE_DB,APPWRITE_METRICS, [
-            Query.equal('searchTerm',query)
-        ])
+        console.log(APPWRITE_DB,APPWRITE_METRICS)
+    const result = await database.listDocuments(APPWRITE_DB,APPWRITE_METRICS,
+       [ Query.equal('searchTerm', query)]
+        )
         console.log('after calling updateSearchCount')
     // isExisted -> increment searchCount field
     if(result.documents.length > 0){

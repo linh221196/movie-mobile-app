@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
+import {PostgrestError} from "@supabase/supabase-js";
 
 const useFetch =<T>( fetch:() => Promise<T>, autoFetch= true) => {
     const [data, setData] = useState<T|null>(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error|null>(null);
+    const [error, setError] = useState<Error|null |PostgrestError>(null);
 
     const fecthData = async ()=>{
         try{

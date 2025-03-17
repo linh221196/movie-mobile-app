@@ -9,6 +9,7 @@ import useFetch from "@/services/useFetch";
 import {Movie} from "@/types/movies";
 import {fetchMovies} from "@/services/api";
 import {updateSearchCount} from "@/services/appwrite";
+import {addUsersQueries} from "@/services/supabase";
 const Search = () => {
     const router = useRouter();
     const [search, setSearch]=useState<string>('');
@@ -19,7 +20,7 @@ const Search = () => {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearch(search);
-        }, 300);
+        }, 500);
 
         return () => {
             clearTimeout(handler);
@@ -40,14 +41,12 @@ const Search = () => {
 
     useEffect(() => {
         const update = async ()=>{
-            if(debouncedSearch && movies){
+            if(debouncedSearch && movies && movies[0]){
                 console.log('RUN 2');
-                await updateSearchCount(debouncedSearch,movies[0])
+                await addUsersQueries(debouncedSearch,movies[0])
             }
-
         }
     update()
-
     }, [debouncedSearch,movies]);
 
 

@@ -9,14 +9,23 @@ import {fetchMovies} from "@/services/api";
 import MovieCard from "@/components/MovieCard";
 import {Movie} from "@/types/movies";
 import React, {useEffect, useState} from "react";
+import {getMostQueries} from "@/services/supabase";
+import {PostgrestError} from "@supabase/supabase-js";
 
 
 export default function Index() {
     const router = useRouter();
     const [search, setSearch]=useState<string>('');
+
     const {data:movies, loading:moviesLoading, error: moviesError, refetch:refetchMovies}=
         useFetch<Movie[]>(()=>fetchMovies({query: search}))
+    const {data:trendMovies, loading:trendMoviesLoading, error: trendMoviesError, refetch:refetchTrendMovies}=
+        useFetch<Movie[] | PostgrestError>(()=>getMostQueries())
 
+    useEffect(() => {
+        if(!trendMoviesLoading && !trendMoviesError)
+        console.log('trendMovies',trendMovies)
+    }, [trendMovies]);
 
 
   return (
