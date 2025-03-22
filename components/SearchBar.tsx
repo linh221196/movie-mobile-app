@@ -22,7 +22,8 @@ const SearchBar = ({placeholder, onPress, setSearch,search}:Props) => {
                        onChangeText={(text:string) => {setSearch( text)}}
 
                        placeholderTextColor={'#a8b5db'}
-            className='w-full text-base ' style={{color:'white', marginLeft:2}}/>
+            className='w-grow text-base ' style={{color:'white', marginLeft:2}}/>
+
         </View>
     );
 };

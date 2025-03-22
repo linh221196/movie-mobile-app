@@ -23,12 +23,6 @@ export default function Index() {
     const {data:trendMovies, loading:trendMoviesLoading, error: trendMoviesError, refetch:refetchTrendMovies}=
         useFetch<Movie[] >(()=>getMostQueries())
 
-    useEffect(() => {
-        if(!trendMoviesLoading && !trendMoviesError)
-        console.log('trendMovies',trendMovies)
-    }, [trendMovies]);
-
-
   return (
    <View className='flex-1 bg-primary'>
        <Image source={images.bg} className='absolute w-full z-0' />
@@ -40,7 +34,6 @@ export default function Index() {
                                            placeholder='Search for a movie'
                                            setSearch={setSearch}
                                            search={search}
-
                                 />
                                 {
                                     trendMoviesLoading? (<ActivityIndicator size={"large"} color={"#0000ff"} className={"mt-10 self-center"}/>):
@@ -49,7 +42,6 @@ export default function Index() {
                                                 <Text className={'text-lg text-white font-bold mt-5 mb-3'}>Trending Movies</Text>
                                                 <TrendCard movies={trendMovies} />
                                             </>
-
                                         )
                                 }
                                 {
@@ -59,15 +51,9 @@ export default function Index() {
                                                 <Text className={'text-lg text-white font-bold mt-5 mb-3'}>Latest Movies</Text>
                                                 <MovieCard movies={movies}/>
                                             </>
-
                                         )
                                 }
-
-
-
-
                             </View>
-
         </ScrollView>
    </View>
   );

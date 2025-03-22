@@ -31,7 +31,6 @@ const Search = () => {
         const func= async ()=>{
             if (debouncedSearch.trim()) {
                  await refetchMovies();
-                 console.log('RUN 1');
             } else {
                 reset();
             }
@@ -42,7 +41,7 @@ const Search = () => {
     useEffect(() => {
         const update = async ()=>{
             if(debouncedSearch && movies && movies[0]){
-                console.log('RUN 2');
+
                 await addUsersQueries(debouncedSearch,movies[0])
             }
         }
