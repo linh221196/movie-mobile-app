@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import {Movie} from "@/types/movies";
-import {Link} from "expo-router";
+import {useRouter} from "expo-router";
 import {icons} from "@/constants/icons"
 
 
@@ -10,14 +10,13 @@ interface Props {
 
 }
 const MovieCard = ({movies}:Props) => {
+    const router = useRouter();
     return (
         <FlatList<Movie> data={movies}
                          keyExtractor={(item) => item.id.toString()}
                          renderItem={({ item }) =>(
                              <View className={"w-1/3 p-2 "}>
-
-                                 <Link href={`/movies/${item.id}`}>
-                                     <TouchableOpacity className={'w-full'} >
+                                     <TouchableOpacity className={'w-full'}  onPress={() => router.push(`/movies/${item.id}`)} >
                                         <Image source={{
                                             uri: item.poster_path? `https://image.tmdb.org/t/p/w500${item.poster_path}` :
                                                 'https://placehold.co/600x400/1a1a1a/ffffff.png'}}
@@ -33,7 +32,7 @@ const MovieCard = ({movies}:Props) => {
                                         </View>
 
                                      </TouchableOpacity>
-                                 </Link>
+
 
 
                              </View>
